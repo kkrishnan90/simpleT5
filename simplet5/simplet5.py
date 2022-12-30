@@ -287,6 +287,7 @@ class SimpleT5:
 
     def __init__(self) -> None:
         """ initiates SimpleT5 class """
+
         pass
 
     def from_pretrained(self, model_type="t5", model_name="t5-base") -> None:
@@ -435,6 +436,8 @@ class SimpleT5:
         do_sample: bool = True,
         repetition_penalty: float = 2.5,
         length_penalty: float = 1.0,
+        num_beam_groups: int=2,
+        diversity_penalty: float =1.0,
         early_stopping: bool = True,
         skip_special_tokens: bool = True,
         clean_up_tokenization_spaces: bool = True,
@@ -465,6 +468,8 @@ class SimpleT5:
             input_ids=input_ids,
             num_beams=num_beams,
             max_length=max_length,
+            num_beam_groups=num_beam_groups,
+            diversity_penalty=diversity_penalty,
             repetition_penalty=repetition_penalty,
             length_penalty=length_penalty,
             early_stopping=early_stopping,
