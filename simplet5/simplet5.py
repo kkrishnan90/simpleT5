@@ -440,6 +440,7 @@ class SimpleT5:
         diversity_penalty: float =1.0,
         early_stopping: bool = True,
         skip_special_tokens: bool = True,
+        temperature: float = 1.0,
         clean_up_tokenization_spaces: bool = True,
     ):
         """
@@ -473,6 +474,7 @@ class SimpleT5:
             repetition_penalty=repetition_penalty,
             length_penalty=length_penalty,
             early_stopping=early_stopping,
+            temperature = temperature,
             top_p=top_p,
             top_k=top_k,
             num_return_sequences=num_return_sequences,
