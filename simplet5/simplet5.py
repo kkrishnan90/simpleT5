@@ -441,6 +441,7 @@ class SimpleT5:
         early_stopping: bool = True,
         skip_special_tokens: bool = True,
         temperature: float = 1.0,
+        no_repeat_ngram_size: int=1,
         clean_up_tokenization_spaces: bool = True,
     ):
         """
@@ -475,6 +476,7 @@ class SimpleT5:
             length_penalty=length_penalty,
             early_stopping=early_stopping,
             temperature = temperature,
+            no_repeat_ngram_size=no_repeat_ngram_size,
             top_p=top_p,
             top_k=top_k,
             num_return_sequences=num_return_sequences,
