@@ -171,7 +171,6 @@ class LightningModel(pl.LightningModule):
         tokenizer,
         model,
         outputdir: str = "outputs",
-        lr: float = 1e-3,
         save_only_last_epoch: bool = False,
     ):
         """
@@ -188,7 +187,6 @@ class LightningModel(pl.LightningModule):
         self.outputdir = outputdir
         self.average_training_loss = None
         self.average_validation_loss = None
-        self.learning_rate = lr
         self.save_only_last_epoch = save_only_last_epoch
 
     def forward(self, input_ids, attention_mask, decoder_attention_mask, labels=None):
@@ -259,7 +257,7 @@ class LightningModel(pl.LightningModule):
 
     def configure_optimizers(self):
         """ configure optimizers """
-        return AdamW(self.parameters(), lr=self.learning_rate)
+        return AdamW(self.parameters(), lr=0.0001)
 
     def training_epoch_end(self, training_step_outputs):
         """ save tokenizer and model on epoch end """
@@ -328,7 +326,6 @@ class SimpleT5:
         precision=32,
         logger="default",
         dataloader_num_workers: int = 2,
-        learning_rate: float =1e-3,
         save_only_last_epoch: bool = False,
     ):
         """
@@ -392,16 +389,9 @@ class SimpleT5:
             gpus=gpus,
             precision=precision,
             log_every_n_steps=1,
-            auto_lr_find=True,
-            learning_rate=learning_rate,
+            auto_lr_find=True,       
         )
-       
-        trainer.tune(self.T5Model)
-        self.log("learning_rate",self.T5Model.learning_rate, logger=True)
-        lr_finder = trainer.tuner.lr_find(self.T5Model)
-        fig = lr_finder.plot(suggest=True)
-        fig.show()
-       
+              
         # fit trainer
         trainer.fit(self.T5Model, self.data_module)
 
