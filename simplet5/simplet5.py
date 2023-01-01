@@ -363,8 +363,7 @@ class SimpleT5:
             tokenizer=self.tokenizer,
             model=self.model,
             outputdir=outputdir,
-            save_only_last_epoch=save_only_last_epoch,
-            learning_rate = learning_rate
+            save_only_last_epoch=save_only_last_epoch            
         )
 
         # add callbacks
@@ -395,6 +394,7 @@ class SimpleT5:
             precision=precision,
             log_every_n_steps=1,
             auto_lr_find=True,
+            learning_rate = learning_rate,
         )
         trainer.tune(self.T5Model)
         self.log("learning_rate", self.T5Model.learning_rate, logger=True)
