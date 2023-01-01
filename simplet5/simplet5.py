@@ -328,7 +328,7 @@ class SimpleT5:
         precision=32,
         logger="default",
         dataloader_num_workers: int = 2,
-        learning_rate=1e-3,
+        learning_rate: float =1e-3,
         save_only_last_epoch: bool = False,
     ):
         """
@@ -393,6 +393,7 @@ class SimpleT5:
             precision=precision,
             log_every_n_steps=1,
             auto_lr_find=True,
+            learning_rate=learning_rate,
         )
        
         trainer.tune(self.T5Model)
