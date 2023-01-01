@@ -172,6 +172,7 @@ class LightningModel(pl.LightningModule):
         model,
         outputdir: str = "outputs",
         save_only_last_epoch: bool = False,
+        learning_rate: float = 0.0001
     ):
         """
         initiates a PyTorch Lightning Model
@@ -188,6 +189,7 @@ class LightningModel(pl.LightningModule):
         self.average_training_loss = None
         self.average_validation_loss = None
         self.save_only_last_epoch = save_only_last_epoch
+        self.learning_rate = learning_rate
 
     def forward(self, input_ids, attention_mask, decoder_attention_mask, labels=None):
         """ forward step """
@@ -257,7 +259,7 @@ class LightningModel(pl.LightningModule):
 
     def configure_optimizers(self):
         """ configure optimizers """
-        return AdamW(self.parameters(), lr=0.0001)
+        return AdamW(self.parameters(), lr=self.learning_rate)
 
     def training_epoch_end(self, training_step_outputs):
         """ save tokenizer and model on epoch end """
@@ -390,8 +392,10 @@ class SimpleT5:
             gpus=gpus,
             precision=precision,
             log_every_n_steps=1,
+            auto_lr_find=True,
         )
-
+        trainer.tune(self.T5Model)
+        self.log("learning_rate", self.T5Model.learning_rate, logger=True)
         # fit trainer
         trainer.fit(self.T5Model, self.data_module)
 
@@ -475,6 +479,7 @@ class SimpleT5:
             repetition_penalty=repetition_penalty,
             length_penalty=length_penalty,
             early_stopping=early_stopping,
+            do_sample= do_sample,
             temperature = temperature,
             no_repeat_ngram_size=no_repeat_ngram_size,
             top_p=top_p,
