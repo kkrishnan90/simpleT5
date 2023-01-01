@@ -171,6 +171,7 @@ class LightningModel(pl.LightningModule):
         tokenizer,
         model,
         outputdir: str = "outputs",
+        lr: float = 1e-3,
         save_only_last_epoch: bool = False,
     ):
         """
@@ -187,6 +188,7 @@ class LightningModel(pl.LightningModule):
         self.outputdir = outputdir
         self.average_training_loss = None
         self.average_validation_loss = None
+        self.learning_rate = lr
         self.save_only_last_epoch = save_only_last_epoch
 
     def forward(self, input_ids, attention_mask, decoder_attention_mask, labels=None):
@@ -328,7 +330,6 @@ class SimpleT5:
         logger="default",
         dataloader_num_workers: int = 2,
         save_only_last_epoch: bool = False,
-        learning_rate: float = 0.00001,
     ):
         """
         trains T5/MT5 model on custom dataset
@@ -390,14 +391,23 @@ class SimpleT5:
             max_epochs=max_epochs,
             gpus=gpus,
             precision=precision,
-            log_every_n_steps=1,
-            auto_lr_find=True,
-            learning_rate = learning_rate,
+            log_every_n_steps=1
         )
-        trainer.tune(self.T5Model)
-        self.log("learning_rate",learning_rate, logger=True)
+        
         # fit trainer
         trainer.fit(self.T5Model, self.data_module)
+
+    def find_learning_rate(self):
+        trainer = pl.Trainer(
+            auto_lr_find = True
+        )
+        trainer.tune(self.T5Model)
+        self.log("learning_rate",self.T5Model.learning_rate, logger=True)
+        lr_finder = trainer.tuner.lr_find(self.T5Model)
+        fig = lr_finder.plot(suggest=True)
+        fig.show()
+
+        self.T5Model.hparams.learning_rate = lr_finder.suggestion()
 
     def load_model(
         self, model_type: str = "t5", model_dir: str = "outputs", use_gpu: bool = False
