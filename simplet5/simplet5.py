@@ -397,7 +397,7 @@ class SimpleT5:
         # fit trainer
         trainer.fit(self.T5Model, self.data_module)
 
-    def find_learning_rate(self):
+    def find_learning_rate(self, learning_rate):
         trainer = pl.Trainer(
             auto_lr_find = True
         )
@@ -407,7 +407,7 @@ class SimpleT5:
         fig = lr_finder.plot(suggest=True)
         fig.show()
 
-        self.T5Model.hparams.learning_rate = lr_finder.suggestion()
+        self.T5Model.learning_rate = lr_finder.suggestion()
 
     def load_model(
         self, model_type: str = "t5", model_dir: str = "outputs", use_gpu: bool = False
