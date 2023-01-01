@@ -172,7 +172,6 @@ class LightningModel(pl.LightningModule):
         model,
         outputdir: str = "outputs",
         save_only_last_epoch: bool = False,
-        learning_rate:float = 0.00001,
     ):
         """
         initiates a PyTorch Lightning Model
@@ -186,7 +185,6 @@ class LightningModel(pl.LightningModule):
         self.model = model
         self.tokenizer = tokenizer
         self.outputdir = outputdir
-        self.learning_rate = learning_rate
         self.average_training_loss = None
         self.average_validation_loss = None
         self.save_only_last_epoch = save_only_last_epoch
@@ -397,7 +395,7 @@ class SimpleT5:
             learning_rate = learning_rate,
         )
         trainer.tune(self.T5Model)
-        self.log("learning_rate", self.T5Model.learning_rate, logger=True)
+        self.log("learning_rate",learning_rate, logger=True)
         # fit trainer
         trainer.fit(self.T5Model, self.data_module)
 
