@@ -286,12 +286,24 @@ class LightningModel(pl.LightningModule):
 
 class SimpleT5:
     """ Custom SimpleT5 class """
-
     def __init__(self) -> None:
         """ initiates SimpleT5 class """
 
         pass
 
+    def find_learning_rate(self):
+        return "hey checking if find learning rate is being called"
+        # trainer = pl.Trainer(
+        #     auto_lr_find = True
+        # )
+        # trainer.tune(self.T5Model)
+        # self.log("learning_rate",self.T5Model.learning_rate, logger=True)
+        # lr_finder = trainer.tuner.lr_find(self.T5Model)
+        # fig = lr_finder.plot(suggest=True)
+        # fig.show()
+
+        # self.T5Model.learning_rate = lr_finder.suggestion()
+ 
     def from_pretrained(self, model_type="t5", model_name="t5-base") -> None:
         """
         loads T5/MT5 Model model for training/finetuning
@@ -396,18 +408,6 @@ class SimpleT5:
         
         # fit trainer
         trainer.fit(self.T5Model, self.data_module)
-
-    def find_learning_rate(self, learning_rate):
-        trainer = pl.Trainer(
-            auto_lr_find = True
-        )
-        trainer.tune(self.T5Model)
-        self.log("learning_rate",self.T5Model.learning_rate, logger=True)
-        lr_finder = trainer.tuner.lr_find(self.T5Model)
-        fig = lr_finder.plot(suggest=True)
-        fig.show()
-
-        self.T5Model.learning_rate = lr_finder.suggestion()
 
     def load_model(
         self, model_type: str = "t5", model_dir: str = "outputs", use_gpu: bool = False
