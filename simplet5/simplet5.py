@@ -363,6 +363,7 @@ class SimpleT5:
             model=self.model,
             outputdir=outputdir,
             save_only_last_epoch=save_only_last_epoch,
+            learning_rate=self.learning_rate,
         )
 
         # add callbacks
