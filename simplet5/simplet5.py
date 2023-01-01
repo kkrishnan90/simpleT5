@@ -328,6 +328,7 @@ class SimpleT5:
         precision=32,
         logger="default",
         dataloader_num_workers: int = 2,
+        learning_rate=1e-3,
         save_only_last_epoch: bool = False,
     ):
         """
