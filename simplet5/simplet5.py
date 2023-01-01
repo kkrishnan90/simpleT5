@@ -290,19 +290,6 @@ class SimpleT5:
         """ initiates SimpleT5 class """
 
         pass
-
-    def find_learning_rate(self):
-        return "hey checking if find learning rate is being called"
-        # trainer = pl.Trainer(
-        #     auto_lr_find = True
-        # )
-        # trainer.tune(self.T5Model)
-        # self.log("learning_rate",self.T5Model.learning_rate, logger=True)
-        # lr_finder = trainer.tuner.lr_find(self.T5Model)
-        # fig = lr_finder.plot(suggest=True)
-        # fig.show()
-
-        # self.T5Model.learning_rate = lr_finder.suggestion()
  
     def from_pretrained(self, model_type="t5", model_name="t5-base") -> None:
         """
@@ -403,9 +390,16 @@ class SimpleT5:
             max_epochs=max_epochs,
             gpus=gpus,
             precision=precision,
-            log_every_n_steps=1
+            log_every_n_steps=1,
+            auto_lr_find=True,
         )
-        
+       
+        trainer.tune(self.T5Model)
+        self.log("learning_rate",self.T5Model.learning_rate, logger=True)
+        lr_finder = trainer.tuner.lr_find(self.T5Model)
+        fig = lr_finder.plot(suggest=True)
+        fig.show()
+       
         # fit trainer
         trainer.fit(self.T5Model, self.data_module)
 
