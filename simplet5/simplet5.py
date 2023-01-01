@@ -171,8 +171,8 @@ class LightningModel(pl.LightningModule):
         tokenizer,
         model,
         outputdir: str = "outputs",
-        learning_rate: float =0.00001,
         save_only_last_epoch: bool = False,
+        learning_rate:float = 0.00001,
     ):
         """
         initiates a PyTorch Lightning Model
@@ -186,10 +186,10 @@ class LightningModel(pl.LightningModule):
         self.model = model
         self.tokenizer = tokenizer
         self.outputdir = outputdir
+        self.learning_rate = learning_rate
         self.average_training_loss = None
         self.average_validation_loss = None
         self.save_only_last_epoch = save_only_last_epoch
-        self.learning_rate = learning_rate
 
     def forward(self, input_ids, attention_mask, decoder_attention_mask, labels=None):
         """ forward step """
@@ -364,7 +364,7 @@ class SimpleT5:
             model=self.model,
             outputdir=outputdir,
             save_only_last_epoch=save_only_last_epoch,
-            learning_rate=learning_rate,
+            learning_rate = learning_rate
         )
 
         # add callbacks
