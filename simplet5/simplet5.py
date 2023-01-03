@@ -168,11 +168,11 @@ class LightningModel(pl.LightningModule):
 
     def __init__(
         self,
+        learning_rate,
         tokenizer,
         model,
         outputdir: str = "outputs",
-        save_only_last_epoch: bool = False,
-        learning_rate: float = 0.0001,
+        save_only_last_epoch: bool = False,        
     ):
         """
         initiates a PyTorch Lightning Model
@@ -362,6 +362,7 @@ class SimpleT5:
             model=self.model,
             outputdir=outputdir,
             save_only_last_epoch=save_only_last_epoch,
+            learning_rate=0.00001,
         )
 
         # add callbacks
