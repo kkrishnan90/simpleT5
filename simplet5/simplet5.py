@@ -318,6 +318,7 @@ class SimpleT5:
         self,
         train_df: pd.DataFrame,
         eval_df: pd.DataFrame,
+        learning_rate: float,
         source_max_token_len: int = 512,
         target_max_token_len: int = 512,
         batch_size: int = 8,
@@ -325,8 +326,7 @@ class SimpleT5:
         use_gpu: bool = True,
         outputdir: str = "outputs",
         early_stopping_patience_epochs: int = 0,  # 0 to disable early stopping feature
-        precision: int = 32,
-        learning_rate = 0.0001,
+        precision: int = 32,        
         logger="default",
         dataloader_num_workers: int = 2,
         save_only_last_epoch: bool = False,
