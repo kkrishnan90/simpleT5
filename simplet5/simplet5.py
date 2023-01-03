@@ -215,7 +215,9 @@ class LightningModel(pl.LightningModule):
             decoder_attention_mask=labels_attention_mask,
             labels=labels,
         )
-
+        self.log(
+            "learning_rate", self.learning_rate, prog_bar=True, logger=True, on_epoch=True, on_step=True
+        )
         self.log(
             "train_loss", loss, prog_bar=True, logger=True, on_epoch=True, on_step=True
         )
@@ -327,6 +329,7 @@ class SimpleT5:
         early_stopping_patience_epochs: int = 0,  # 0 to disable early stopping feature
         precision: int = 32,        
         logger="default",
+        auto_lr_find:bool = False,
         dataloader_num_workers: int = 2,
         save_only_last_epoch: bool = False,
     ):
@@ -392,7 +395,7 @@ class SimpleT5:
             gpus=gpus,
             precision=precision,
             log_every_n_steps=1,
-            auto_lr_find=True,       
+            auto_lr_find=auto_lr_find,       
         )
               
         # tune trainer
