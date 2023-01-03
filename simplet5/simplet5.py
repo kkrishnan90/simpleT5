@@ -395,7 +395,7 @@ class SimpleT5:
         )
               
         # tune trainer
-        trainer.tune(self.T5Model)      
+        trainer.tune(self.T5Model,self.data_module)      
         # fit trainer
         trainer.fit(self.T5Model, self.data_module)
 
