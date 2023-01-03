@@ -326,7 +326,7 @@ class SimpleT5:
         outputdir: str = "outputs",
         early_stopping_patience_epochs: int = 0,  # 0 to disable early stopping feature
         precision: int = 32,
-        learning_rate: float = 0.0001,
+        learning_rate = 0.0001,
         logger="default",
         dataloader_num_workers: int = 2,
         save_only_last_epoch: bool = False,
