@@ -394,6 +394,8 @@ class SimpleT5:
             auto_lr_find=True,       
         )
               
+        # tune trainer
+        trainer.tune(self.T5Model)      
         # fit trainer
         trainer.fit(self.T5Model, self.data_module)
 
