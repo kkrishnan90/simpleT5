@@ -172,7 +172,6 @@ class LightningModel(pl.LightningModule):
         model,
         outputdir: str = "outputs",
         save_only_last_epoch: bool = False,
-        learning_rate: float = 0.0001,
     ):
         """
         initiates a PyTorch Lightning Model
@@ -189,7 +188,6 @@ class LightningModel(pl.LightningModule):
         self.average_training_loss = None
         self.average_validation_loss = None
         self.save_only_last_epoch = save_only_last_epoch
-        self.learning_rate = learning_rate
 
     def forward(self, input_ids, attention_mask, decoder_attention_mask, labels=None):
         """ forward step """
@@ -259,7 +257,7 @@ class LightningModel(pl.LightningModule):
 
     def configure_optimizers(self):
         """ configure optimizers """
-        return AdamW(self.parameters(), lr=self.learning_rate)
+        return AdamW(self.parameters(), lr=0.0001)
 
     def training_epoch_end(self, training_step_outputs):
         """ save tokenizer and model on epoch end """
@@ -325,8 +323,7 @@ class SimpleT5:
         use_gpu: bool = True,
         outputdir: str = "outputs",
         early_stopping_patience_epochs: int = 0,  # 0 to disable early stopping feature
-        precision: int = 32,
-        learning_rate: float = 0.0001,
+        precision=32,
         logger="default",
         dataloader_num_workers: int = 2,
         save_only_last_epoch: bool = False,
@@ -362,8 +359,7 @@ class SimpleT5:
             tokenizer=self.tokenizer,
             model=self.model,
             outputdir=outputdir,
-            save_only_last_epoch=save_only_last_epoch,
-            learning_rate=learning_rate,
+            save_only_last_epoch=save_only_last_epoch            
         )
 
         # add callbacks
