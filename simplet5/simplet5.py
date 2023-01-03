@@ -318,7 +318,6 @@ class SimpleT5:
         self,
         train_df: pd.DataFrame,
         eval_df: pd.DataFrame,
-        learning_rate: float,
         source_max_token_len: int = 512,
         target_max_token_len: int = 512,
         batch_size: int = 8,
@@ -363,7 +362,6 @@ class SimpleT5:
             model=self.model,
             outputdir=outputdir,
             save_only_last_epoch=save_only_last_epoch,
-            learning_rate=learning_rate,
         )
 
         # add callbacks
