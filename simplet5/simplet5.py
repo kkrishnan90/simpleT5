@@ -325,6 +325,7 @@ class SimpleT5:
         batch_size: int = 8,
         max_epochs: int = 5,
         use_gpu: bool = True,
+        gpu_count: int = 1,
         outputdir: str = "outputs",
         early_stopping_patience_epochs: int = 0,  # 0 to disable early stopping feature
         precision: int = 32,        
@@ -382,7 +383,7 @@ class SimpleT5:
             callbacks.append(early_stop_callback)
 
         # add gpu support
-        gpus = 1 if use_gpu else 0
+        # gpus = 1 if use_gpu else 0
 
         # add logger
         loggers = True if logger == "default" else logger
@@ -392,7 +393,9 @@ class SimpleT5:
             logger=loggers,
             callbacks=callbacks,
             max_epochs=max_epochs,
-            gpus=gpus,
+            # gpus=gpus,
+            devices=gpu_count,
+            accelerator="auto",
             precision=precision,
             log_every_n_steps=1,
             auto_lr_find=auto_lr_find,       
