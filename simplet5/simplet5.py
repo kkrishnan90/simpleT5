@@ -326,7 +326,6 @@ class SimpleT5:
         max_epochs: int = 5,
         use_gpu: bool = True,
         gpu_count: int = 1,
-        strategy: str = "dp",
         outputdir: str = "outputs",
         early_stopping_patience_epochs: int = 0,  # 0 to disable early stopping feature
         precision: int = 32,        
@@ -395,7 +394,7 @@ class SimpleT5:
             callbacks=callbacks,
             max_epochs=max_epochs,
             # gpus=gpus,
-            strategy=strategy,
+            strategy="ddp_notebook_find_unused_parameters_false",
             devices=gpu_count,
             accelerator="auto",
             precision=precision,
